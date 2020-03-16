@@ -1,4 +1,5 @@
 export const COMMAND_API_KEY = 'controlla.apikey';
+export const COMMAND_DEVELOPER_KEY = 'controlla.developerkey';
 export const COMMAND_PROXY = 'controlla.proxy';
 export const COMMAND_DEBUG = 'controlla.debug';
 export const COMMAND_STATUS_BAR_ENABLED = 'controlla.status_bar_enabled';
