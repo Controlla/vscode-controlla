@@ -4,6 +4,7 @@ import * as vscode from 'vscode';
 
 import {
 	COMMAND_API_KEY,
+	COMMAND_DEVELOPER_KEY,
 	COMMAND_PROXY,
 	COMMAND_DEBUG,
 	COMMAND_STATUS_BAR_ENABLED,
@@ -14,13 +15,18 @@ import {
 	LogLevel,
 } from './constants';
 import { Logger } from './logger';
+import { Options } from './options';
+import { Controlla } from './controlla';
 
 var logger = new Logger(LogLevel.INFO);
+var controlla: Controlla;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	var options = new Options();
 
+	controlla = new Controlla(context.extensionPath, logger, options);
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "controlla" is now active!');
@@ -33,9 +39,67 @@ export function activate(context: vscode.ExtensionContext) {
 			// The code you place here will be executed every time your command is executed
 			// wakatime.promptForApiKey();
 			// Display a message box to the user
-			vscode.window.showInformationMessage(COMMAND_API_KEY);
+			controlla.promptForApiKey();
 		}),
 	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_DEVELOPER_KEY, () => {
+			vscode.window.showInformationMessage(COMMAND_DEVELOPER_KEY);
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_PROXY, () => {
+			vscode.window.showInformationMessage(COMMAND_PROXY);
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_DEBUG, () => {
+			vscode.window.showInformationMessage(COMMAND_DEBUG);
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_STATUS_BAR_ENABLED, () => {
+			vscode.window.showInformationMessage(COMMAND_STATUS_BAR_ENABLED);
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_STATUS_BAR_CODING_ACTIVITY, () => {
+			vscode.window.showInformationMessage(COMMAND_STATUS_BAR_CODING_ACTIVITY);
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_DASHBOARD, () => {
+			controlla.openDashboardWebsite();
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_CONFIG_FILE, () => {
+			vscode.window.showInformationMessage(COMMAND_CONFIG_FILE);
+		}),
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(COMMAND_LOG_FILE, () => {
+			vscode.window.showInformationMessage(COMMAND_LOG_FILE);
+		}),
+	);
+
+	options.getSetting('settings', 'debug', function (_error, debug) {
+		if (debug === 'true') {
+			logger.setLevel(LogLevel.DEBUG);
+			logger.debug('::Controlla debug mode::');
+		}
+		options.getSetting('settings', 'standalone', (_err, standalone) => {
+			// wakatime.initialize(standalone !== 'false');
+		});
+	});
 }
 
 // this method is called when your extension is deactivated
