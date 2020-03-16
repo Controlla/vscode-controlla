@@ -20,7 +20,7 @@
 		"email": "support@controlla.com"
 	},
 	"engines": {
-		"vscode": "^1.43.0",
+		"vscode": "^1.41.0",
 		"sqlops": "*"
 	},
 	"categories": [
@@ -47,6 +47,10 @@
 			{
 				"command": "controlla.apikey",
 				"title": "Controlla: Api Key"
+			},
+			{
+				"command": "controlla.developerkey",
+				"title": "Controlla: Developer Key"
 			},
 			{
 				"command": "controlla.proxy",
