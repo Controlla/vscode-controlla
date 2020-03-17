@@ -45,31 +45,31 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_DEVELOPER_KEY, () => {
-			vscode.window.showInformationMessage(COMMAND_DEVELOPER_KEY);
+			controlla.promptForDeveloperKey();
 		}),
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_PROXY, () => {
-			vscode.window.showInformationMessage(COMMAND_PROXY);
+			controlla.promptForProxy();
 		}),
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_DEBUG, () => {
-			vscode.window.showInformationMessage(COMMAND_DEBUG);
+			controlla.promptForDebug();
 		}),
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_STATUS_BAR_ENABLED, () => {
-			vscode.window.showInformationMessage(COMMAND_STATUS_BAR_ENABLED);
+			controlla.promptStatusBarIcon();
 		}),
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_STATUS_BAR_CODING_ACTIVITY, () => {
-			vscode.window.showInformationMessage(COMMAND_STATUS_BAR_CODING_ACTIVITY);
+			controlla.promptStatusBarCodingActivity();
 		}),
 	);
 
@@ -81,15 +81,17 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_CONFIG_FILE, () => {
-			vscode.window.showInformationMessage(COMMAND_CONFIG_FILE);
+			controlla.openConfigFile();
 		}),
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_LOG_FILE, () => {
-			vscode.window.showInformationMessage(COMMAND_LOG_FILE);
+			controlla.openLogFile();
 		}),
 	);
+
+	context.subscriptions.push(controlla);
 
 	options.getSetting('settings', 'debug', function (_error, debug) {
 		if (debug === 'true') {
@@ -97,12 +99,13 @@ export function activate(context: vscode.ExtensionContext) {
 			logger.debug('::Controlla debug mode::');
 		}
 		options.getSetting('settings', 'standalone', (_err, standalone) => {
-			// wakatime.initialize(standalone !== 'false');
+			controlla.initialize(standalone !== 'false');
 		});
 	});
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
+	controlla.dispose();
 	logger.info('Controlla has been disabled!');
 }
