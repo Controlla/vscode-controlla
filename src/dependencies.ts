@@ -26,21 +26,22 @@ export class Dependencies {
     this.standalone = standalone;
   }
 
-//   public checkAndInstall(callback: () => void): void {
-//     if (this.standalone) {
-//       this.checkAndInstallStandaloneCli(callback);
-//     } else {
-//       this.isPythonInstalled(isInstalled => {
-//         if (!isInstalled) {
-//           this.installPython(() => {
-//             this.checkAndInstallCli(callback);
-//           });
-//         } else {
-//           this.checkAndInstallCli(callback);
-//         }
-//       });
-//     }
-//   }
+  public checkAndInstall(callback: () => void): void {
+    // if (this.standalone) {
+    //   this.checkAndInstallStandaloneCli(callback);
+    // } else {
+    //   this.isPythonInstalled(isInstalled => {
+    //     if (!isInstalled) {
+    //       this.installPython(() => {
+    //         this.checkAndInstallCli(callback);
+    //       });
+    //     } else {
+    //       this.checkAndInstallCli(callback);
+    //     }
+    //   });
+    // }
+    callback();
+  }
 
 //   public getPythonLocation(callback: (arg0: string) => void): void {
 //     if (this.cachedPythonLocation) return callback(this.cachedPythonLocation);

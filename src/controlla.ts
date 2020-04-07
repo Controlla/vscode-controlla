@@ -54,38 +54,38 @@ export class Controlla {
         this.agentName = this.appNames[vscode.env.appName] || 'vscode';
         this.statusBar.text = '$(clock) Controlla Initializing...';
         this.statusBar.show();
-        if (this.standalone) {this.logger.debug('Using standalone controlla-cli.');}
+        if (this.standalone) { this.logger.debug('Using standalone controlla-cli.'); }
         this.checkApiKey();
 
-        // this.dependencies.checkAndInstall(() => {
-            //     this.logger.debug('Controlla: Initialized');
-            //     this.statusBar.text = '$(clock)';
-            //     this.statusBar.tooltip = 'Controlla: Initialized';
-            //     this.options.getSetting('settings', 'status_bar_enabled', (_err, val) => {
-                //         if (val === 'false') {
-                    //             this.showStatusBar = false;
-                    //             this.statusBar.hide();
-                    //         } else {
-                        //             this.showStatusBar = true;
-                        //             this.statusBar.show();
-                        //         }
-                        //     });
-                        //     this.options.getSetting('settings', 'status_bar_coding_activity', (_err, val) => {
-                            //         if (val === 'false') {
-                                //             this.showCodingActivity = false;
-                                //         } else {
-                                    //             this.showCodingActivity = true;
-                                    //             this.getCodingActivity();
-                                    //         }
-                                    //     });
-                                    // });
-                                    
-        // this.setupEventListeners();
+        this.dependencies.checkAndInstall(() => {
+            this.logger.debug('Controlla: Initialized');
+            this.statusBar.text = '$(clock)';
+            this.statusBar.tooltip = 'Controlla: Initialized';
+            this.options.getSetting('settings', 'status_bar_enabled', (_err, val) => {
+                if (val === 'false') {
+                    this.showStatusBar = false;
+                    this.statusBar.hide();
+                } else {
+                    this.showStatusBar = true;
+                    this.statusBar.show();
+                }
+            });
+            this.options.getSetting('settings', 'status_bar_coding_activity', (_err, val) => {
+                if (val === 'false') {
+                    this.showCodingActivity = false;
+                } else {
+                    this.showCodingActivity = true;
+                    // this.getCodingActivity();
+                }
+            });
+        });
+
+        this.setupEventListeners();
     }
 
     public promptForApiKey(): void {
         this.options.getSetting('settings', 'api_key', (_err, defaultVal) => {
-            if (Libs.validateKey(defaultVal) !== '') {defaultVal = '';}
+            if (Libs.validateKey(defaultVal) !== '') { defaultVal = ''; }
             let promptOptions = {
                 prompt: 'Controlla Api Key',
                 placeHolder: 'Enter your api key from https://controlla.com/settings',
@@ -96,9 +96,9 @@ export class Controlla {
             vscode.window.showInputBox(promptOptions).then(val => {
                 if (val !== undefined) {
                     let validation = Libs.validateKey(val);
-                    if (validation === '') { this.options.setSetting('settings', 'api_key', val); this.checkDeveloperKey();}
-                    else {vscode.window.setStatusBarMessage(validation);}
-                } else {vscode.window.setStatusBarMessage('Controlla api key not provided');}
+                    if (validation === '') { this.options.setSetting('settings', 'api_key', val); this.checkDeveloperKey(); }
+                    else { vscode.window.setStatusBarMessage(validation); }
+                } else { vscode.window.setStatusBarMessage('Controlla api key not provided'); }
             });
         });
     }
@@ -125,7 +125,7 @@ export class Controlla {
 
     public promptForProxy(): void {
         this.options.getSetting('settings', 'proxy', (_err, defaultVal) => {
-            if (!defaultVal) {defaultVal = '';}
+            if (!defaultVal) { defaultVal = ''; }
             let promptOptions = {
                 prompt: 'Controlla Proxy',
                 placeHolder: `Proxy format is https://user:pass@host:port (current value \"${defaultVal}\")`,
@@ -134,14 +134,14 @@ export class Controlla {
                 validateInput: Libs.validateProxy.bind(this),
             };
             vscode.window.showInputBox(promptOptions).then(val => {
-                if (val || val === '') {this.options.setSetting('settings', 'proxy', val);}
+                if (val || val === '') { this.options.setSetting('settings', 'proxy', val); }
             });
         });
     }
 
     public promptForDebug(): void {
         this.options.getSetting('settings', 'debug', (_err, defaultVal) => {
-            if (!defaultVal || defaultVal !== 'true') {defaultVal = 'false';}
+            if (!defaultVal || defaultVal !== 'true') { defaultVal = 'false'; }
             let items: string[] = ['true', 'false'];
             let promptOptions = {
                 placeHolder: `true or false (current value \"${defaultVal}\")`,
@@ -149,7 +149,7 @@ export class Controlla {
                 ignoreFocusOut: true,
             };
             vscode.window.showQuickPick(items, promptOptions).then(newVal => {
-                if (newVal === null) {return;}
+                if (newVal === null) { return; }
                 this.options.setSetting('settings', 'debug', newVal);
                 if (newVal === 'true') {
                     this.logger.setLevel(LogLevel.DEBUG);
@@ -163,7 +163,7 @@ export class Controlla {
 
     public promptStatusBarIcon(): void {
         this.options.getSetting('settings', 'status_bar_enabled', (_err, defaultVal) => {
-            if (!defaultVal || defaultVal !== 'false') {defaultVal = 'true';}
+            if (!defaultVal || defaultVal !== 'false') { defaultVal = 'true'; }
             let items: string[] = ['true', 'false'];
             let promptOptions = {
                 placeHolder: `true or false (current value \"${defaultVal}\")`,
@@ -171,7 +171,7 @@ export class Controlla {
                 ignoreFocusOut: true,
             };
             vscode.window.showQuickPick(items, promptOptions).then(newVal => {
-                if (newVal === null) {return;}
+                if (newVal === null) { return; }
                 this.options.setSetting('settings', 'status_bar_enabled', newVal);
                 if (newVal === 'true') {
                     this.showStatusBar = true;
@@ -188,7 +188,7 @@ export class Controlla {
 
     public promptStatusBarCodingActivity(): void {
         this.options.getSetting('settings', 'status_bar_coding_activity', (_err, defaultVal) => {
-            if (!defaultVal || defaultVal !== 'false') {defaultVal = 'true';}
+            if (!defaultVal || defaultVal !== 'false') { defaultVal = 'true'; }
             let items: string[] = ['true', 'false'];
             let promptOptions = {
                 placeHolder: `true or false (current value \"${defaultVal}\")`,
@@ -196,7 +196,7 @@ export class Controlla {
                 ignoreFocusOut: true,
             };
             vscode.window.showQuickPick(items, promptOptions).then(newVal => {
-                if (newVal === null) {return;}
+                if (newVal === null) { return; }
                 this.options.setSetting('settings', 'status_bar_coding_activity', newVal);
                 if (newVal === 'true') {
                     this.logger.debug('Coding activity in status bar has been enabled');
@@ -242,8 +242,8 @@ export class Controlla {
 
     private checkApiKey(): void {
         this.hasApiKey(hasApiKey => {
-            if (!hasApiKey) {this.promptForApiKey();}
-            if (hasApiKey) {this.checkDeveloperKey();}
+            if (!hasApiKey) { this.promptForApiKey(); }
+            if (hasApiKey) { this.checkDeveloperKey(); }
         });
     }
 
@@ -313,10 +313,11 @@ export class Controlla {
     private sendHeartbeat(file: string, isWrite: boolean): void {
         this.hasApiKey(hasApiKey => {
             if (hasApiKey) {
-                if (this.standalone === undefined) {return;}
+                if (this.standalone === undefined) { return; }
                 if (this.standalone) {
-                    this._sendHeartbeat(file, isWrite);
+                    // this._sendHeartbeat(file, isWrite);
                 } else {
+                    let hola = 'das';
                     // this.dependencies.getPythonLocation((pythonBinary: string | undefined) => {
                     //     if (pythonBinary) {
                     //         this._sendHeartbeat(file, isWrite, pythonBinary);
@@ -330,17 +331,17 @@ export class Controlla {
     }
 
     private _sendHeartbeat(file: string, isWrite: boolean, pythonBinary?: string): void {
-        if (this.standalone && !this.dependencies.isStandaloneCliInstalled()) {return;}
+        // if (this.standalone && !this.dependencies.isStandaloneCliInstalled()) { return; }
         let cli = this.standalone
             ? this.dependencies.getStandaloneCliLocation()
             : this.dependencies.getCliLocation();
         let user_agent =
             this.agentName + '/' + vscode.version + ' vscode-controlla/' + this.extension.version;
         let args = ['--file', Libs.quote(file), '--plugin', Libs.quote(user_agent)];
-        if (!this.standalone) {args.unshift(cli);}
+        if (!this.standalone) { args.unshift(cli); }
         let project = this.getProjectName(file);
-        if (project) {args.push('--alternate-project', Libs.quote(project));}
-        if (isWrite) {args.push('--write');}
+        if (project) { args.push('--alternate-project', Libs.quote(project)); }
+        if (isWrite) { args.push('--write'); }
         if (Dependencies.isWindows() || this.options.isPortable()) {
             args.push(
                 '--config',
@@ -354,22 +355,22 @@ export class Controlla {
         this.logger.debug(`Sending heartbeat: ${this.formatArguments(binary, args)}`);
         let process = child_process.execFile(binary, args, (error: { toString: () => string; } | null, stdout: { toString: () => string; }, stderr: { toString: () => string; }) => {
             if (error !== null) {
-                if (stderr && stderr.toString() !== '') {this.logger.error(stderr.toString());}
-                if (stdout && stdout.toString() !== '') {this.logger.error(stdout.toString());}
+                if (stderr && stderr.toString() !== '') { this.logger.error(stderr.toString()); }
+                if (stdout && stdout.toString() !== '') { this.logger.error(stdout.toString()); }
                 this.logger.error(error.toString());
             }
         });
         process.on('close', (code, _signal) => {
             if (code === 0) {
                 if (this.showStatusBar) {
-                    if (!this.showCodingActivity) {this.statusBar.text = '$(clock)';}
+                    if (!this.showCodingActivity) { this.statusBar.text = '$(clock)'; }
                     this.getCodingActivity();
                 }
                 let today = new Date();
                 this.logger.debug(`last heartbeat sent ${this.formatDate(today)}`);
             } else if (code === 102) {
                 if (this.showStatusBar) {
-                    if (!this.showCodingActivity) {this.statusBar.text = '$(clock)';}
+                    if (!this.showCodingActivity) { this.statusBar.text = '$(clock)'; }
                     this.statusBar.tooltip =
                         'Controlla: working offline... coding activity will sync next time we are online';
                 }
@@ -402,15 +403,15 @@ export class Controlla {
     }
 
     private getCodingActivity(force: boolean = false) {
-        if (!this.showCodingActivity || !this.showStatusBar) {return;}
+        if (!this.showCodingActivity || !this.showStatusBar) { return; }
         const cutoff = Date.now() - this.fetchTodayInterval;
-        if (!force && this.lastFetchToday > cutoff) {return;}
+        if (!force && this.lastFetchToday > cutoff) { return; }
 
         this.lastFetchToday = Date.now();
         this.getCodingActivityTimeout = setTimeout(this.getCodingActivity, this.fetchTodayInterval);
 
         this.hasApiKey(hasApiKey => {
-            if (!hasApiKey) {return;}
+            if (!hasApiKey) { return; }
 
             if (this.standalone) {
                 this._getCodingActivity();
@@ -432,7 +433,7 @@ export class Controlla {
         let user_agent =
             this.agentName + '/' + vscode.version + ' vscode-controlla/' + this.extension.version;
         let args = ['--today', '--plugin', Libs.quote(user_agent)];
-        if (!this.standalone) {args.unshift(cli);}
+        if (!this.standalone) { args.unshift(cli); }
         if (Dependencies.isWindows()) {
             args.push(
                 '--config',
@@ -448,15 +449,15 @@ export class Controlla {
         );
         let process = child_process.execFile(binary, args, (error: { toString: () => string; } | null, stdout: { toString: () => string; }, stderr: { toString: () => string; }) => {
             if (error !== null) {
-                if (stderr && stderr.toString() !== '') {this.logger.error(stderr.toString());}
-                if (stdout && stdout.toString() !== '') {this.logger.error(stdout.toString());}
+                if (stderr && stderr.toString() !== '') { this.logger.error(stderr.toString()); }
+                if (stdout && stdout.toString() !== '') { this.logger.error(stdout.toString()); }
                 this.logger.error(error.toString());
             }
         });
         let output = '';
         if (process.stdout) {
             process.stdout.on('data', (data: string | null) => {
-                if (data) {output += data;}
+                if (data) { output += data; }
             });
         }
         process.on('close', (code, _signal) => {
@@ -523,14 +524,13 @@ export class Controlla {
         let newKey = '';
         if (key) {
             newKey = key;
-            if (key.length > 4)
-                {newKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' + key.substring(key.length - 4);}
+            if (key.length > 4) { newKey = 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' + key.substring(key.length - 4); }
         }
         return newKey;
     }
 
     private wrapArg(arg: string): string {
-        if (arg.indexOf(' ') > -1) {return '"' + arg.replace(/"/g, '\\"') + '"';}
+        if (arg.indexOf(' ') > -1) { return '"' + arg.replace(/"/g, '\\"') + '"'; }
         return arg;
     }
 
@@ -540,8 +540,8 @@ export class Controlla {
         let newCmds: string[] = [];
         let lastCmd = '';
         for (let i = 0; i < clone.length; i++) {
-            if (lastCmd === '--key') {newCmds.push(this.wrapArg(this.obfuscateKey(clone[i])));}
-            else {newCmds.push(this.wrapArg(clone[i]));}
+            if (lastCmd === '--key') { newCmds.push(this.wrapArg(this.obfuscateKey(clone[i]))); }
+            else { newCmds.push(this.wrapArg(clone[i])); }
             lastCmd = clone[i];
         }
         return newCmds.join(' ');

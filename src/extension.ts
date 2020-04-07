@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.commands.registerCommand(COMMAND_API_KEY, () => {
 			// The code you place here will be executed every time your command is executed
-			// wakatime.promptForApiKey();
+			// controlla.promptForApiKey();
 			// Display a message box to the user
 			controlla.promptForApiKey();
 		}),
