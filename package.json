@@ -27,20 +27,20 @@
 		"Other"
 	],
 	"icon": "images/Controlla-logo.png",
-	    "galleryBanner": {
-        "color": "#AEC3D8",
-        "theme": "light"
-    },
-    "extensionKind": [
-        "workspace"
-    ],
+	"galleryBanner": {
+		"color": "#AEC3D8",
+		"theme": "light"
+	},
+	"extensionKind": [
+		"workspace"
+	],
 	"activationEvents": [
 		"*"
 	],
 	"repository": {
-        "type": "git",
-        "url": "https://github.com/controlla/vscode-controlla.git"
-    },
+		"type": "git",
+		"url": "https://github.com/controlla/vscode-controlla.git"
+	},
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
@@ -99,7 +99,7 @@
 		"@typescript-eslint/parser": "^2.18.0",
 		"@typescript-eslint/eslint-plugin": "^2.18.0",
 		"glob": "^7.1.6",
-		"mocha": "^7.0.1",
+		"mocha": "^7.1.1",
 		"typescript": "^3.7.5",
 		"vscode-test": "^1.3.0"
 	}
