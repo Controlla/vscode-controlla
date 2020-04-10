@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 
 import {
 	COMMAND_API_KEY,
-	COMMAND_DEVELOPER_KEY,
+	COMMAND_DEVELOPER_ID,
 	COMMAND_PROXY,
 	COMMAND_DEBUG,
 	COMMAND_STATUS_BAR_ENABLED,
@@ -44,8 +44,8 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand(COMMAND_DEVELOPER_KEY, () => {
-			controlla.promptForDeveloperKey();
+		vscode.commands.registerCommand(COMMAND_DEVELOPER_ID, () => {
+			controlla.promptForDeveloperId();
 		}),
 	);
 

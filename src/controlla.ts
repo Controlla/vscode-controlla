@@ -96,19 +96,19 @@ export class Controlla {
             vscode.window.showInputBox(promptOptions).then(val => {
                 if (val !== undefined) {
                     let validation = Libs.validateKey(val);
-                    if (validation === '') { this.options.setSetting('settings', 'api_key', val); this.checkDeveloperKey(); }
+                    if (validation === '') { this.options.setSetting('settings', 'api_key', val); this.checkDeveloperId(); }
                     else { vscode.window.setStatusBarMessage(validation); }
                 } else { vscode.window.setStatusBarMessage('Controlla api key not provided'); }
             });
         });
     }
 
-    public promptForDeveloperKey(): void {
-        this.options.getSetting('settings', 'developer_key', (_err, defaultVal) => {
+    public promptForDeveloperId(): void {
+        this.options.getSetting('settings', 'developer_id', (_err, defaultVal) => {
             if (Libs.validateKey(defaultVal) !== '') { defaultVal = ''; }
             let promptOptions = {
-                prompt: 'Controlla Developer Key',
-                placeHolder: 'Enter your developer key from https://controlla.com/settings',
+                prompt: 'Controlla Developer Id',
+                placeHolder: 'Enter your developer id from https://controlla.com/settings',
                 value: defaultVal,
                 ignoreFocusOut: true,
                 validateInput: Libs.validateKey.bind(this),
@@ -116,9 +116,9 @@ export class Controlla {
             vscode.window.showInputBox(promptOptions).then(val => {
                 if (val !== undefined) {
                     let validation = Libs.validateKey(val);
-                    if (validation === '') { this.options.setSetting('settings', 'developer_key', val); }
+                    if (validation === '') { this.options.setSetting('settings', 'developer_id', val); }
                     else { vscode.window.setStatusBarMessage(validation); }
-                } else { vscode.window.setStatusBarMessage('Controlla developer key not provided'); }
+                } else { vscode.window.setStatusBarMessage('Controlla developer id not provided'); }
             });
         });
     }
@@ -243,7 +243,7 @@ export class Controlla {
     private checkApiKey(): void {
         this.hasApiKey(hasApiKey => {
             if (!hasApiKey) { this.promptForApiKey(); }
-            if (hasApiKey) { this.checkDeveloperKey(); }
+            if (hasApiKey) { this.checkDeveloperId(); }
         });
     }
 
@@ -257,18 +257,18 @@ export class Controlla {
             });
     }
 
-    private checkDeveloperKey(): void {
-        this.hasDeveloperKey(hasDeveloperKey => {
-            if (!hasDeveloperKey) { this.promptForDeveloperKey(); }
+    private checkDeveloperId(): void {
+        this.hasDeveloperId(hasDeveloperId => {
+            if (!hasDeveloperId) { this.promptForDeveloperId(); }
         });
     }
 
-    private hasDeveloperKey(callback: (arg0: boolean) => void): void {
+    private hasDeveloperId(callback: (arg0: boolean) => void): void {
         this.options
-            .getDeveloperKeyAsync()
-            .then(devKey => callback(Libs.validateKey(devKey) === ''))
+            .getDeveloperIdAsync()
+            .then(devId => callback(Libs.validateKey(devId) === ''))
             .catch(err => {
-                this.logger.error(`Error reading developer key: ${err}`);
+                this.logger.error(`Error reading developer id: ${err}`);
                 callback(false);
             });
     }

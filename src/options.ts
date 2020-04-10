@@ -144,15 +144,15 @@ export class Options {
         });
     }
 
-    public async getDeveloperKeyAsync(): Promise<string> {
+    public async getDeveloperIdAsync(): Promise<string> {
         return new Promise<string>(async (resolve, reject) => {
-            const cachedDevKey = await this.cache.getItem<string>('developer_key');
-            if (cachedDevKey) { return resolve(cachedDevKey); }
+            const cachedDevId = await this.cache.getItem<string>('developer_id');
+            if (cachedDevId) { return resolve(cachedDevId); }
 
-            await this.getSettingAsync<string>('settings', 'developer_key')
-                .then(devKey => {
-                    this.cache.setItem('developer_key', devKey, { ttl: 300 });
-                    resolve(devKey);
+            await this.getSettingAsync<string>('settings', 'developer_id')
+                .then(devId => {
+                    this.cache.setItem('developer_id', devId, { ttl: 300 });
+                    resolve(devId);
                 })
                 .catch(err => reject(err));
         });
