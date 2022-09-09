@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 // export const COMMAND_API_KEY = 'controlla.apikey';
 // export const COMMAND_DEVELOPER_ID = 'controlla.developerid';
 // export const COMMAND_PROXY = 'controlla.proxy';

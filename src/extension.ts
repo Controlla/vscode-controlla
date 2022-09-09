@@ -7,7 +7,7 @@ import { Controlla } from './controlla';
 import { Logger } from './logger';
 import { Options } from "./options";
 
-var logger = new Logger(LogLevel.info);
+var logger = new Logger(LogLevel.INFO);
 var controlla:Controlla;
 
 // this method is called when your extension is activated
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	options.getSetting('settings', 'debug', function (_error, debug) {
 		if (debug === 'true') {
-			logger.setLevel(LogLevel.debug);
+			logger.setLevel(LogLevel.DEBUG);
 			logger.debug('::Controlla debug mode::');
 		}
 		options.getSetting('settings', 'standalone', (_err) => {
