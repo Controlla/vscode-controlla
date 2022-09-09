@@ -1,6 +1,6 @@
-# vscode-controlla README
+# controlla README
 
-This is the README for your extension "vscode-controlla". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "controlla". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
